@@ -1,7 +1,4 @@
 <%= simple_form_for @task, :html => { :class => 'form-inline' } do |f| %>
-  <%= f.input :title %>
-
-  <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
-  </div>
+  <%= f.input_field :title %>
+  <%= content_tag :button, '<i class="icon-plus"></i>'.html_safe, class: 'btn btn-primary' %>
 <% end %>
