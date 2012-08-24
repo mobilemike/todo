@@ -4,9 +4,9 @@ class Task < ActiveRecord::Base
   validates :title, presence: true
   validates :title, uniqueness: {:scope => :assigned_date}
 
-  scope :yesterday, ->{ where(:assigned_date => Date.yesterday)}
-  scope :today, ->{ where(:assigned_date => Date.today)}
-  scope :tomorrow, ->{ where(:assigned_date => Date.tomorrow)}
+  scope :yesterday, ->{ where(:assigned_date => Date.yesterday) }
+  scope :today, ->{ where(:assigned_date => Date.today) }
+  scope :tomorrow, ->{ where(:assigned_date => Date.tomorrow) }
 
 
   after_initialize :init
