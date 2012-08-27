@@ -3,6 +3,7 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
     @task = Task.new
+    @past_tasks = Task.past
     @yesterdays_tasks = Task.yesterday
     @todays_tasks = Task.today
     @tomorrows_tasks = Task.tomorrow

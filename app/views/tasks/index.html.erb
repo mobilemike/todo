@@ -14,10 +14,16 @@
 <div class="row-fluid">
 
   <div class="span3 offset1">
-    <h2>Yesterday</h2>
+    <h3>Yesterday</h3>
     <table class="table table-striped">
       <tbody>
         <%= render partial: :task, collection: @yesterdays_tasks %>
+      </tbody>
+    </table>
+    <h3>Past</h3>
+    <table class="table table-striped">
+      <tbody>
+        <%= render partial: :task, collection: @past_tasks %>
       </tbody>
     </table>
   </div>
@@ -34,7 +40,7 @@
   </div>
 
   <div id="tomorrow" class="span3">
-    <h2>Tomorrow</h2>
+    <h3>Tomorrow</h3>
     <table class="table table-striped">
       <tbody>
         <%= render partial: :task, collection: @tomorrows_tasks %>
