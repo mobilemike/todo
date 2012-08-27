@@ -22,6 +22,9 @@ describe Task do
 	  	@tomorrow = create(:task,
 												 title: "Tomorrow's Task",
 												 assigned_date: (TODAY + 1))
+	  	@past = create(:task,
+	  	               title: "Past Task",
+	  	               assigned_date: (TODAY - 2))
 	  end
 
 		it "is invalid with a dupilcate title on the same day" do
@@ -34,6 +37,10 @@ describe Task do
 			build(:task,
 						title: "Today's Task",
 						assigned_date: TODAY + 1.day).should be_valid
+		end
+
+		it "returns only past tasks when asked" do
+			Task.past.should == [@past]
 		end
       
 		it "returns only yesterdays tasks when asked" do
