@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-TODAY = Date.today
+TODAY = Date.current
 
 describe Task do
 	it "has a valid factory" do

@@ -5,7 +5,7 @@ class Task < ActiveRecord::Base
   validates :title, uniqueness: {:scope => :assigned_date}
 
   scope :yesterday, ->{ where(:assigned_date => Date.yesterday) }
-  scope :today, ->{ where(:assigned_date => Date.today) }
+  scope :today, ->{ where(:assigned_date => Date.current) }
   scope :tomorrow, ->{ where(:assigned_date => Date.tomorrow) }
 
 
@@ -13,7 +13,7 @@ class Task < ActiveRecord::Base
 
 	private
   def init
-    self.assigned_date ||= Date.today
+    self.assigned_date ||= Date.current
   end
 
 end
