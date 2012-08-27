@@ -16,3 +16,6 @@
 
 # Mac OS X Finder and whatnot
 .DS_Store
+
+# Ignore the simplecov folder
+coverage
