@@ -19,3 +19,6 @@
 
 # Ignore the simplecov folder
 coverage
+
+# Ignore the Foreman .env file
+.env
