@@ -3,9 +3,11 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.8'
 
 gem 'jquery-rails'
-gem 'thin'
 gem 'twitter-bootstrap-rails'
 gem 'simple_form'
+gem 'pg'
+gem 'unicorn'
+gem 'foreman'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -17,7 +19,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'guard-rspec'
-  gem 'sqlite3'
 end
 
 group :test do
