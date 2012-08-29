@@ -1,5 +1,7 @@
 language: ruby
-rvm:
-  - 1.9.3
-before_script: "bundle exec rake db:migrate"
-script: "bundle exec rake spec"
+rvm: 1.9.3
+env: RAILS_ENV=travisci
+before_script:
+  - psql -c 'create database todo_test;' -U postgres
+  - bundle exec rake db:migrate
+script: bundle exec rake spec

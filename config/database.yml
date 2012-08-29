@@ -7,3 +7,9 @@ test:
   adapter: postgresql
   host: localhost
   database: todo_test
+
+travisci:
+  adapter: postgresql
+  host: localhost
+  database: todo_test
+  username: postgres
