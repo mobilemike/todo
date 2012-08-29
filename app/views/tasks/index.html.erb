@@ -20,10 +20,10 @@
         <%= render partial: :task, collection: @yesterdays_tasks %>
       </tbody>
     </table>
-    <h3>Past</h3>
+    <h3>Past Incomplete</h3>
     <table class="table table-striped">
       <tbody>
-        <%= render partial: :task, collection: @past_tasks %>
+        <%= render partial: :task, collection: @past_incomplete_tasks %>
       </tbody>
     </table>
   </div>
