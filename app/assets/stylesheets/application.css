@@ -11,3 +11,11 @@
  *= require_self
  *= require_tree .
  */
+
+li.task {
+  padding-bottom: 5px;
+}
+
+span.completed {
+  text-decoration: line-through;
+}

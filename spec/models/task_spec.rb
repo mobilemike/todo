@@ -11,7 +11,14 @@ describe Task do
 	  build(:task, title: nil).should_not be_valid
 	end
 
-	context "using scopes" do
+  it "returns only incomplete tasks when asked" do
+    incomplete = create(:task, completed: false)
+    complete = create(:task, completed: true)
+
+    Task.incomplete.should == [incomplete]
+  end
+
+	context "comparing assigned dates" do
 	  before :each do
 	  	@yesterday = create(:task,
 						  						title: "Yesterday's Task",

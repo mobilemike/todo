@@ -1,5 +1,5 @@
 class Task < ActiveRecord::Base
-  attr_accessible :title, :assigned_date
+  attr_accessible :title, :assigned_date, :completed
   
   validates :title, presence: true
   validates :title, uniqueness: {:scope => :assigned_date}
@@ -8,6 +8,7 @@ class Task < ActiveRecord::Base
   scope :yesterday, ->{ where(:assigned_date => Date.yesterday) }
   scope :today, ->{ where(:assigned_date => Date.current) }
   scope :tomorrow, ->{ where(:assigned_date => Date.tomorrow) }
+  scope :incomplete, where(completed: false)
 
 
   after_initialize :init

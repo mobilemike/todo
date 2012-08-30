@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
     @task = Task.new
-    @past_tasks = Task.past
+    @past_incomplete_tasks = Task.past.incomplete
     @yesterdays_tasks = Task.yesterday
     @todays_tasks = Task.today
     @tomorrows_tasks = Task.tomorrow
