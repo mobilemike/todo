@@ -12,10 +12,14 @@
  *= require_tree .
  */
 
-li.task {
+.task {
   padding-bottom: 5px;
 }
 
-span.completed {
+.completed {
   text-decoration: line-through;
+}
+
+#past, #future {
+  color: #999;
 }
