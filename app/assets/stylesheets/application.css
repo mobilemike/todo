@@ -12,6 +12,10 @@
  *= require_tree .
  */
 
-td.completed {
+li.task {
+  padding-bottom: 5px;
+}
+
+span.completed {
   text-decoration: line-through;
 }

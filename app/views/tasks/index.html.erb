@@ -15,36 +15,27 @@
 
   <div class="span3 offset1">
     <h3>Yesterday</h3>
-    <table class="table table-striped">
-      <tbody>
-        <%= render partial: :task, collection: @yesterdays_tasks %>
-      </tbody>
-    </table>
-    <h3>Past Incomplete</h3>
-    <table class="table table-striped">
-      <tbody>
-        <%= render partial: :task, collection: @past_incomplete_tasks %>
-      </tbody>
-    </table>
+    <ul class="unstyled">
+      <%= render partial: :task, collection: @yesterdays_tasks %>
+    </ul>
+    <%= content_tag(:h3, 'Past Incomplete') unless @past_incomplete_tasks.empty? %>
+    <ul class="unstyled">
+      <%= render partial: :task, collection: @past_incomplete_tasks %>
+    </ul>
   </div>
 
   <div id="today" class="span4">
     <h2>Today</h2>
-    <table class="table table-striped">
-      <tbody>
-        <%= render partial: :task, collection: @todays_tasks %>
-      </tbody>
-    </table>
-
-    <%= render :partial => 'form' %>
+    <ul class="unstyled">
+      <%= render partial: 'form' %>
+      <%= render partial: :task, collection: @todays_tasks %>
+    </ul>
   </div>
 
   <div id="tomorrow" class="span3">
     <h3>Tomorrow</h3>
-    <table class="table table-striped">
-      <tbody>
-        <%= render partial: :task, collection: @tomorrows_tasks %>
-      </tbody>
-    </table>
+    <ul class="unstyled">
+      <%= render partial: :task, collection: @tomorrows_tasks %>
+    </ul>
   </div>
 </div>
