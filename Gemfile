@@ -29,3 +29,8 @@ group :test, :travisci do
 	gem 'launchy'
   gem 'simplecov', require: false
 end
+
+group :development do
+ gem 'pry-rescue'
+ gem 'pry-stack_explorer'
+end
