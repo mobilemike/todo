@@ -7,12 +7,7 @@
   </span>
   <span class="<%= 'completed' if task.completed? %>"><%= task.title %></span>
   <div class="btn-group pull-right">
-    <%= link_to '<i class="icon-pencil"></i>'.html_safe,
-                edit_task_path(task), :class => 'btn btn-small' unless task.completed? %>
-    <%= link_to '<i class="icon-trash"></i>'.html_safe,
-                task_path(task),
-                :method => :delete,
-                :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
-                :class => 'btn btn-small btn-danger' %>
+    <%= task_edit_button task %>
+    <%= task_reassign_button task %>
   </div>
 </li>

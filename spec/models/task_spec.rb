@@ -18,7 +18,7 @@ describe Task do
     Task.incomplete.should == [incomplete]
   end
 
-	context "comparing assigned dates" do
+	context "assigned dates" do
 	  before :each do
 	  	@yesterday = create(:task,
 						  						title: "Yesterday's Task",
@@ -61,6 +61,31 @@ describe Task do
 		it "returns only tomorrows tasks when asked" do
 			Task.tomorrow.should == [@tomorrow]
 		end
+
+    it "identfies today's tasks as being assigned to today" do
+      @today.today?.should be_true
+    end
+
+    it "identfies yesteday's tasks as not being assigned to today" do
+      @yesterday.today?.should be_false
+    end
+
+    context "reassigning" do
+      it "moves very old tasks to today when reassigned" do
+        @past.move_forward
+         @past.assigned_date.should == TODAY
+      end
+
+      it "moves yesterday's tasks to today when reassigned" do
+        @yesterday.move_forward
+        @yesterday.assigned_date.should == TODAY
+      end
+
+      it "moves today's tasks to tomorrow when reassigned" do
+        @today.move_forward
+        @today.assigned_date.should == TODAY + 1
+      end
+    end
 
 	end
 end
