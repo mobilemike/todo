@@ -4,5 +4,9 @@ Todo::Application.routes.draw do
     resource :reassignment, only: [:create]
   end
 
+  resources :lists, only: [] do
+    resource :reassignment, only: [:create]
+  end
+
   root to: 'tasks#index'
 end

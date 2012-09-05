@@ -19,10 +19,12 @@ class Task < ActiveRecord::Base
   end
 
   def move_forward
-    if self.assigned_date < Date.current
-      self.update_attributes assigned_date: Date.current
-    elsif self.assigned_date == Date.current
-      self.update_attributes assigned_date: Date.current + 1
+    unless self.completed?
+      if self.assigned_date < Date.current
+        self.update_attributes assigned_date: Date.current
+      elsif self.assigned_date == Date.current
+        self.update_attributes assigned_date: Date.current + 1
+      end
     end
   end
 
