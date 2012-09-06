@@ -1,6 +1,6 @@
 <li>
   <%= simple_form_for @task, :html => { :class => 'form-inline' } do |f| %>
-    <%= f.input_field :title, placeholder: "What's next?", :class => 'input-block-level',
-                      :autofocus => true %>
+    <%= f.input_field :title, placeholder: "What's next?", :class => 'expanding input-block-level',
+                      :autofocus => true, :cols => nil, :rows => 1, :as => :text %>
   <% end %>
-</li>
+</li> 

@@ -26,6 +26,10 @@ h1, h2, h3 {
   padding-bottom: 5px;
 }
 
+.text {
+  resize: none;
+}
+
 .completed {
   text-decoration: line-through;
 }
