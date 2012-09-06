@@ -10,7 +10,7 @@
 
 <div class="row-fluid">
 
-  <div id="past" class="span3 offset1">
+  <div class="span3 alternate-day">
     <h3>Yesterday <%= list_reassign_button @yesterdays_list %></h3>
     <ul class="unstyled">
       <%= render partial: :task, collection: @yesterdays_list.tasks %>
@@ -22,7 +22,7 @@
     </ul>
   </div>
 
-  <div id="today" class="span4">
+  <div class="span5">
     <h2>Today <%= list_reassign_button @todays_list %></h2>
     <ul class="unstyled">
       <%= render partial: 'form' %>
@@ -30,7 +30,7 @@
     </ul>
   </div>
 
-  <div id="future" class="span3">
+  <div class="span3 alternate-day">
     <h3>Tomorrow</h3>
     <ul class="unstyled">
       <%= render partial: :task, collection: @tomorrows_list.tasks %>
