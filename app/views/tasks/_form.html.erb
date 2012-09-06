@@ -1,8 +1,6 @@
 <li>
   <%= simple_form_for @task, :html => { :class => 'form-inline' } do |f| %>
-    <div class="input-append">
-      <%= f.input_field :title, placeholder: "What's next?" %>
-      <%= content_tag :button, '<i class="icon-plus"></i>'.html_safe, class: 'btn btn-primary' %>
-  </div>
+    <%= f.input_field :title, placeholder: "What's next?", :class => 'input-block-level',
+                      :autofocus => true %>
   <% end %>
 </li>

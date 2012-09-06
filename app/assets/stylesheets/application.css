@@ -12,6 +12,16 @@
  *= require_tree .
  */
 
+.container-fluid {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1, h2, h3 {
+  text-align: center;
+}
+
 .task {
   padding-bottom: 5px;
 }
@@ -20,6 +30,10 @@
   text-decoration: line-through;
 }
 
-#past, #future {
-  color: #999;
+.alternate-day {
+  color: #888;
+}
+
+.alternate-day .btn {
+  color: #888;
 }
