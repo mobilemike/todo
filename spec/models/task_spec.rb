@@ -18,6 +18,17 @@ describe Task do
     Task.incomplete.should == [incomplete]
   end
 
+  context "splits tasks with newlines in the title" do
+    before :each do
+      @multiple_tasks = Task.build_one_or_more_tasks attributes_for(:task,
+                                                                    title: "One\nTwo")
+    end
+
+   it { @multiple_tasks.should have(2).items }
+   it { @multiple_tasks[0].title.should == "One" }
+   it { @multiple_tasks[1].title.should == "Two" }
+  end
+
 	context "assigned dates" do
 	  before :each do
 	  	@yesterday = create(:task,

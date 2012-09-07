@@ -1,13 +1,18 @@
 class TasksController < ApplicationController
-  # GET /tasks
-  # GET /tasks.json
-  def index
+
+  before_filter :load_tasks, only: [:index, :create]
+
+  def load_tasks
     @task = Task.new
     @past_incomplete_tasks = Task.past.incomplete
     @yesterdays_tasks = Task.yesterday
     @todays_tasks = Task.today
     @tomorrows_tasks = Task.tomorrow
+  end
 
+  # GET /tasks
+  # GET /tasks.json
+  def index
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tasks }
@@ -42,13 +47,19 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @tasks = Task.all
-    @task = Task.new(params[:task])
+    @tasks = Task.build_one_or_more_tasks(params[:task])
 
     respond_to do |format|
-      if @task.save
-        format.html { redirect_to tasks_url, notice: 'Task was successfully created.' }
-        format.json { render json: @task, status: :created, location: @task }
+      if @tasks.all?(&:valid?)
+        @tasks.each(&:save)
+        case @tasks.size
+        when 1
+          notice = 'Task was successfully created.'
+        else
+          notice = 'Tasks were successfully created from.'
+        end
+          format.html { redirect_to tasks_url, notice: notice }
+          format.json { render json: @task, status: :created, location: @task }
       else
         format.html { render action: "index" }
         format.json { render json: @task.errors, status: :unprocessable_entity }
