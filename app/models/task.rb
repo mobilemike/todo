@@ -14,6 +14,13 @@ class Task < ActiveRecord::Base
 
   after_initialize :init
 
+  def self.build_one_or_more_tasks attributes={}
+    attributes[:title].split("\n").map do |title|
+      attributes[:title] = title.strip
+      self.new attributes
+    end
+  end
+
   def today?
     self.assigned_date == Date.current
   end
@@ -27,6 +34,7 @@ class Task < ActiveRecord::Base
       end
     end
   end
+
 
 	private
   def init
