@@ -56,7 +56,7 @@ class TasksController < ApplicationController
         when 1
           notice = 'Task was successfully created.'
         else
-          notice = 'Tasks were successfully created from.'
+          notice = 'Multiple tasks were successfully created.'
         end
           format.html { redirect_to tasks_url, notice: notice }
           format.json { render json: @task, status: :created, location: @task }

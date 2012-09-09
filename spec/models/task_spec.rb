@@ -3,100 +3,161 @@ require 'spec_helper'
 TODAY = Date.current
 
 describe Task do
-	it "has a valid factory" do
-    create(:task).should be_valid
-	end
+  subject(:task) { create(:task) }
 
-	it "is invalid without a title" do
-	  build(:task, title: nil).should_not be_valid
-	end
+  let(:todays_task) { create(:task) }
+  let(:completed_task) { create(:task, :completed) }
+  let(:past_task) { create(:task, :past) }
+  let(:tomorrows_task) { create(:task, :tomorrow) }
+  let(:yesterdays_task) { create(:task, :yesterday) }
 
-  it "returns only incomplete tasks when asked" do
-    incomplete = create(:task, completed: false)
-    complete = create(:task, completed: true)
-
-    Task.incomplete.should == [incomplete]
+  it "has a valid factory" do 
+    should be_valid
   end
 
-  context "splits tasks with newlines in the title" do
-    before :each do
-      @multiple_tasks = Task.build_one_or_more_tasks attributes_for(:task,
-                                                                    title: "One\nTwo")
-    end
-
-   it { @multiple_tasks.should have(2).items }
-   it { @multiple_tasks[0].title.should == "One" }
-   it { @multiple_tasks[1].title.should == "Two" }
+  context "by default" do
+    it { should_not be_completed }
+    its(:assigned_date) { should eq TODAY }
+  end
+  
+  describe "validations" do
+    it { should validate_presence_of :title }
+    it { should validate_uniqueness_of(:title).scoped_to(:assigned_date) }
   end
 
-	context "assigned dates" do
-	  before :each do
-	  	@yesterday = create(:task,
-						  						title: "Yesterday's Task",
-													assigned_date: (TODAY - 1))
-	  	@today = create(:task,
-											title: "Today's Task",
-											assigned_date: TODAY)
-	  	@tomorrow = create(:task,
-												 title: "Tomorrow's Task",
-												 assigned_date: (TODAY + 1))
-	  	@past = create(:task,
-	  	               title: "Past Task",
-	  	               assigned_date: (TODAY - 2))
-	  end
+  describe "scopes" do
+    describe ".incomplete" do
+      let(:incomplete_tasks) { Task.incomplete }
 
-		it "is invalid with a dupilcate title on the same day" do
-			build(:task,
-			     	title: "Today's Task",
-						assigned_date: TODAY).should_not be_valid
-		end
-
-		it "is valid with a duplicate title on different days" do
-			build(:task,
-						title: "Today's Task",
-						assigned_date: TODAY + 1.day).should be_valid
-		end
-
-		it "returns only past tasks when asked" do
-			Task.past.should == [@past]
-		end
-      
-		it "returns only yesterdays tasks when asked" do
-			Task.yesterday.should == [@yesterday]
-		end
-
-		it "returns only todays tasks when asked" do
-			Task.today.should == [@today]
-		end
-
-		it "returns only tomorrows tasks when asked" do
-			Task.tomorrow.should == [@tomorrow]
-		end
-
-    it "identfies today's tasks as being assigned to today" do
-      @today.today?.should be_true
-    end
-
-    it "identfies yesteday's tasks as not being assigned to today" do
-      @yesterday.today?.should be_false
-    end
-
-    context "reassigning" do
-      it "moves very old tasks to today when reassigned" do
-        @past.move_forward
-         @past.assigned_date.should == TODAY
+      it "returns an incomplete task" do 
+        incomplete_tasks.should include task
       end
 
-      it "moves yesterday's tasks to today when reassigned" do
-        @yesterday.move_forward
-        @yesterday.assigned_date.should == TODAY
-      end
-
-      it "moves today's tasks to tomorrow when reassigned" do
-        @today.move_forward
-        @today.assigned_date.should == TODAY + 1
+      it"doesn't return a complete task" do
+        incomplete_tasks.should_not include completed_task
       end
     end
 
-	end
+    describe ".past" do
+      let(:past_tasks) { Task.past }
+
+      it "returns a past task" do
+        past_tasks.should include past_task
+      end
+
+      it "doesn't return others" do 
+        past_tasks.should_not include todays_task,
+                                      yesterdays_task,
+                                      tomorrows_task
+      end
+    end
+
+    describe ".yesterday" do
+      let(:yesterdays_tasks) { Task.yesterday }
+
+      it "returns yesterday's task" do 
+        yesterdays_tasks.should include yesterdays_task
+      end
+
+      it "doesn't return others" do 
+        yesterdays_tasks.should_not include past_task,
+                                            todays_task,
+                                            tomorrows_task
+      end
+    end
+
+    describe ".today" do
+      let(:todays_tasks) { Task.today }
+
+      it "returns today's task" do
+        todays_tasks.should include todays_task
+      end
+      it "doesn't return others" do
+        todays_tasks.should_not include past_task,
+                                        yesterdays_task,
+                                        tomorrows_task
+      end
+    end
+
+    describe ".tomorrow" do
+      let(:tomorrows_tasks) { Task.tomorrow }
+
+      it "returns tomorrow's task" do
+        tomorrows_tasks.should include tomorrows_task
+      end
+      it "doesn't return others" do
+        tomorrows_tasks.should_not include past_task,
+                                           yesterdays_task,
+                                           todays_task
+      end
+    end
+
+    describe "default scope" do
+      let(:all_tasks) { Task.all }
+
+      let!(:very_old_task) { create(:task, created_at: Time.now - 2.months) }
+      let!(:ancient_task) { create(:task, created_at: Time.now - 3.months) }
+      let!(:fresh_task) { create(:task) }
+      let!(:old_task) { create(:task, created_at: Time.now - 1.month) }
+
+      it "sorts tasks from oldest to newst" do
+        all_tasks.should eq [ancient_task, very_old_task, old_task, fresh_task]
+      end
+    end
+  end
+
+  describe ".build_one_or_more_tasks" do
+    context "given a single line task title" do
+      let(:task_attributes) { attributes_for(:task) }
+      let(:tasks) { Task.build_one_or_more_tasks task_attributes }
+
+      specify { tasks.should have(1).task }
+      specify { tasks.first.title.should == task_attributes[:title] }
+    end
+
+    context "given a multiline task title" do
+      task1_title = "Multiline Task 1"
+      task2_title = "Multiline Task 2"
+      title = task1_title + "\r\n" + task2_title + "\r\n"
+      let(:task_attributes) { attributes_for(:task, title: title) }
+      let(:tasks) { Task.build_one_or_more_tasks task_attributes }
+
+      specify { tasks.should have(2).tasks }
+      specify { tasks.first.title.should == task1_title }
+      specify { tasks.second.title.should == task2_title }
+    end
+  end
+
+  describe "#today?" do
+    context "given a task assigned to today" do
+      specify { todays_task.should be_today }
+    end
+
+    context "given a task assigned to yesterday" do
+      specify { yesterdays_task.should_not be_today }
+    end
+  end
+
+  describe "#move_forward" do
+    context "given a task from the past" do
+      it "moves the task forward to today" do
+        expect{ past_task.move_forward }.
+          to change{ past_task.assigned_date }.to(TODAY)
+      end
+    end
+
+    context "given a task from yesteday" do
+      it "moves the task forward to today" do
+        expect { yesterdays_task.move_forward }.
+          to change{ yesterdays_task.assigned_date }.to(TODAY)
+      end
+    end
+
+    context "given a task from today" do
+      it "moves the task forward to tomorrow" do
+        expect { todays_task.move_forward }.
+          to change { todays_task.assigned_date }.to(TODAY + 1)
+      end
+    end
+  end
 end
