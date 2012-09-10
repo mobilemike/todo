@@ -35,7 +35,6 @@ class Task < ActiveRecord::Base
     end
   end
 
-
 	private
   def init
     self.assigned_date ||= Date.current

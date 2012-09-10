@@ -139,24 +139,31 @@ describe Task do
   end
 
   describe "#move_forward" do
-    context "given a task from the past" do
+    context "given an incomplete task from the past" do
       it "moves the task forward to today" do
         expect{ past_task.move_forward }.
           to change{ past_task.assigned_date }.to(TODAY)
       end
     end
 
-    context "given a task from yesteday" do
+    context "given an incomplete task from yesteday" do
       it "moves the task forward to today" do
         expect { yesterdays_task.move_forward }.
           to change{ yesterdays_task.assigned_date }.to(TODAY)
       end
     end
 
-    context "given a task from today" do
+    context "given an incomplete task from today" do
       it "moves the task forward to tomorrow" do
         expect { todays_task.move_forward }.
           to change { todays_task.assigned_date }.to(TODAY + 1)
+      end
+    end
+
+    context "given an completed task" do
+      it "does nothing" do
+        expect { completed_task.move_forward }.
+          to_not change { completed_task.assigned_date }
       end
     end
   end
