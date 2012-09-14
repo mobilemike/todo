@@ -1,13 +1,12 @@
-## This is todo 
+## This is todo [![Build Status](https://secure.travis-ci.org/mobilemike/todo.png?branch=master)](http://travis-ci.org/mobilemike/todo)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/mobilemike/todo)
+[![Dependency Status](https://gemnasium.com/mobilemike/todo.png)](https://gemnasium.com/mobilemike/todo)
 
 todo is yet another todo list application, designed to work according to my personal preferences. It's goals are simple:
 
 * Simply and cleanly mimic a todo list as kept in a paper book (like a Moleskine)
 * Use the most current and consistent Ruby or Rails design principles
 * Fully test all appropriate code (note: not 100% test coverage)
-
-[![Build Status](https://secure.travis-ci.org/mobilemike/todo.png?branch=master)](http://travis-ci.org/mobilemike/todo)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/mobilemike/todo)
 
 ## License
 
