@@ -23,7 +23,6 @@ end
 
 group :test, :travisci do
   gem 'shoulda-matchers'
-	gem 'faker'
 	gem 'capybara'
 	gem 'database_cleaner'
 	gem 'launchy'
@@ -31,6 +30,7 @@ group :test, :travisci do
 end
 
 group :development do
+ gem 'ruby_gntp'
  gem 'pry-rescue'
  gem 'pry-stack_explorer'
 end

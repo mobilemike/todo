@@ -6,10 +6,6 @@ class Task < ActiveRecord::Base
 
   default_scope order: 'created_at ASC'
 
-  scope :past, ->{ where("assigned_date < ?", Date.yesterday) }
-  scope :yesterday, ->{ where(:assigned_date => Date.yesterday) }
-  scope :today, ->{ where(:assigned_date => Date.current) }
-  scope :tomorrow, ->{ where(:assigned_date => Date.tomorrow) }
   scope :incomplete, where(completed: false)
 
   after_initialize :init

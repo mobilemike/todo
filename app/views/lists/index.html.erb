@@ -13,27 +13,27 @@
   <div class="span3 alternate-day">
     <h3>Yesterday <%= list_reassign_button @yesterdays_list %></h3>
     <ul class="unstyled">
-      <%= render partial: :task, collection: @yesterdays_list.tasks %>
+      <%= render partial: 'tasks/task', collection: @yesterdays_list.tasks %>
 
     </ul>
     <h3>Past Incomplete <%= list_reassign_button @past_list %></h3>
     <ul class="unstyled">
-      <%= render partial: :task, collection: @past_list.tasks.incomplete %>
+      <%= render partial: 'tasks/task', collection: @past_list.tasks.incomplete %>
     </ul>
   </div>
 
   <div class="span5">
     <h2>Today <%= list_reassign_button @todays_list %></h2>
     <ul class="unstyled">
-      <%= render partial: 'form' %>
-      <%= render partial: :task, collection: @todays_list.tasks %>
+      <%= render partial: 'tasks/form' %>
+      <%= render partial: 'tasks/task', collection: @todays_list.tasks %>
     </ul>
   </div>
 
   <div class="span3 alternate-day">
     <h3>Tomorrow</h3>
     <ul class="unstyled">
-      <%= render partial: :task, collection: @tomorrows_list.tasks %>
+      <%= render partial: 'tasks/task', collection: @tomorrows_list.tasks %>
     </ul>
   </div>
 </div>

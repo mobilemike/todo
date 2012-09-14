@@ -5,8 +5,8 @@ TODAY = Date.current
 describe Task do
   subject(:task) { create(:task) }
 
-  let(:todays_task) { create(:task) }
   let(:completed_task) { create(:task, :completed) }
+  let(:todays_task) { create(:task) }
   let(:past_task) { create(:task, :past) }
   let(:tomorrows_task) { create(:task, :tomorrow) }
   let(:yesterdays_task) { create(:task, :yesterday) }
@@ -35,60 +35,6 @@ describe Task do
 
       it"doesn't return a complete task" do
         incomplete_tasks.should_not include completed_task
-      end
-    end
-
-    describe ".past" do
-      let(:past_tasks) { Task.past }
-
-      it "returns a past task" do
-        past_tasks.should include past_task
-      end
-
-      it "doesn't return others" do 
-        past_tasks.should_not include todays_task,
-                                      yesterdays_task,
-                                      tomorrows_task
-      end
-    end
-
-    describe ".yesterday" do
-      let(:yesterdays_tasks) { Task.yesterday }
-
-      it "returns yesterday's task" do 
-        yesterdays_tasks.should include yesterdays_task
-      end
-
-      it "doesn't return others" do 
-        yesterdays_tasks.should_not include past_task,
-                                            todays_task,
-                                            tomorrows_task
-      end
-    end
-
-    describe ".today" do
-      let(:todays_tasks) { Task.today }
-
-      it "returns today's task" do
-        todays_tasks.should include todays_task
-      end
-      it "doesn't return others" do
-        todays_tasks.should_not include past_task,
-                                        yesterdays_task,
-                                        tomorrows_task
-      end
-    end
-
-    describe ".tomorrow" do
-      let(:tomorrows_tasks) { Task.tomorrow }
-
-      it "returns tomorrow's task" do
-        tomorrows_tasks.should include tomorrows_task
-      end
-      it "doesn't return others" do
-        tomorrows_tasks.should_not include past_task,
-                                           yesterdays_task,
-                                           todays_task
       end
     end
 

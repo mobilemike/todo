@@ -1,12 +1,11 @@
 class ReassignmentsController < ApplicationController
   def create
     if params[:task_id]      
-      tasks = Task.find(params[:task_id])
+      Task.find(params[:task_id]).move_forward
     else
-      tasks = List.find(params[:list_id])
+      List.find(params[:list_id]).move_forward
     end
 
-    tasks.move_forward
-    redirect_to tasks_path
+    redirect_to lists_path
   end
 end
