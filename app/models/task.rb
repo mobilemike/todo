@@ -6,6 +6,10 @@ class Task < ActiveRecord::Base
 
   default_scope order: 'created_at ASC'
 
+  scope :past, ->{ where("assigned_date < ?", Date.yesterday) }
+  scope :yesterday, ->{ where(:assigned_date => Date.yesterday) }
+  scope :today, ->{ where(:assigned_date => Date.current) }
+  scope :tomorrow, ->{ where(:assigned_date => Date.tomorrow) }
   scope :incomplete, where(completed: false)
 
   after_initialize :init
@@ -14,6 +18,14 @@ class Task < ActiveRecord::Base
     attributes[:title].split("\n").map do |title|
       attributes[:title] = title.strip
       self.new attributes
+    end
+  end
+
+  def self.find_by_scope scope
+    if [:past, :yesterday, :today, :tomorrow].include? scope.to_sym
+      send scope
+    else
+      raise ActiveRecord::RecordNotFound
     end
   end
 
