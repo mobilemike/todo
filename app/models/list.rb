@@ -8,27 +8,7 @@ class List
   end
 
   def self.find id
-    if [:past, :yesterday, :today, :tomorrow].include? id.to_sym
-      send id
-    else
-      new
-    end
-  end
-
-  def self.past
-   new Task.where("assigned_date < ?", Date.yesterday), :past
-  end
-
-  def self.yesterday
-    new Task.where(:assigned_date => Date.yesterday), :yesterday
-  end
-
-  def self.today
-   new Task.where(:assigned_date => Date.current), :today
-  end
-
-  def self.tomorrow
-    new Task.where(:assigned_date => Date.tomorrow), :tomorrow
+    new Task.find_by_scope(id), id
   end
 
   def to_param

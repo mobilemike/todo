@@ -3,13 +3,13 @@ require 'spec_helper'
 TODAY = Date.current
 
 describe Task do
-  subject(:task) { create(:task) }
-
   let(:completed_task) { create(:task, :completed) }
   let(:todays_task) { create(:task) }
   let(:past_task) { create(:task, :past) }
   let(:tomorrows_task) { create(:task, :tomorrow) }
   let(:yesterdays_task) { create(:task, :yesterday) }
+
+  subject(:task) { todays_task }
 
   it "has a valid factory" do 
     should be_valid
@@ -29,12 +29,40 @@ describe Task do
     describe ".incomplete" do
       let(:incomplete_tasks) { Task.incomplete }
 
-      it "returns an incomplete task" do 
-        incomplete_tasks.should include task
+      it "returns the incomplete tasks" do 
+        incomplete_tasks.should == [task]
       end
+    end
 
-      it"doesn't return a complete task" do
-        incomplete_tasks.should_not include completed_task
+    describe ".past" do
+      let(:past_tasks) { Task.past }
+
+      it "finds the past tasks" do 
+        past_tasks.should == [past_task]
+      end
+    end
+
+    describe ".yesterday" do
+      let(:yesterdays_tasks) { Task.yesterday }
+
+      it "finds yesterday's tasks" do 
+        yesterdays_tasks.should == [yesterdays_task]
+      end
+    end
+
+    describe ".today" do
+      let(:todays_tasks) { Task.today }
+
+      it "finds today's tasks" do 
+        todays_tasks.should == [todays_task]
+      end
+    end
+
+    describe ".tomorrow" do
+      let(:tomorrows_tasks) { Task.tomorrow }
+
+      it "finds tomorrow's tasks" do 
+        tomorrows_tasks.should == [tomorrows_task]
       end
     end
 
@@ -48,6 +76,25 @@ describe Task do
 
       it "sorts tasks from oldest to newst" do
         all_tasks.should eq [ancient_task, very_old_task, old_task, fresh_task]
+      end
+    end
+  end
+
+  describe ".find_by_scope" do
+    context "valid scope name" do 
+      it "calls the appropriate scope" do
+        [:past, :yesterday, :today, :tomorrow].each do |scope|
+          Task.should_receive scope
+
+          Task.find_by_scope scope
+        end
+      end
+    end
+
+    context "invalid scope name" do
+      it "raises a no record found error" do
+        ->{ Task.find_by_scope(:invalid) }.
+          should raise_error ActiveRecord::RecordNotFound
       end
     end
   end
