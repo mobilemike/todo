@@ -74,7 +74,7 @@ describe Task do
       let!(:fresh_task) { create(:task) }
       let!(:old_task) { create(:task, created_at: Time.now - 1.month) }
 
-      it "sorts tasks from oldest to newst" do
+      it "sorts tasks from oldest to newst by creation timestamp" do
         all_tasks.should eq [ancient_task, very_old_task, old_task, fresh_task]
       end
     end

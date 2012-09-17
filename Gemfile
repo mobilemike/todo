@@ -18,7 +18,6 @@ end
 group :development, :test, :travisci do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'guard-rspec'
 end
 
 group :test, :travisci do
@@ -31,6 +30,6 @@ end
 
 group :development do
  gem 'ruby_gntp'
- gem 'pry-rescue'
- gem 'pry-stack_explorer'
+ gem 'guard-rspec'
+ gem 'rb-fsevent'
 end
