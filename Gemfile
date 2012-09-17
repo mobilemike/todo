@@ -8,6 +8,7 @@ gem 'simple_form'
 gem 'pg'
 gem 'unicorn'
 gem 'foreman'
+gem 'newrelic_rpm'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
